@@ -17,6 +17,7 @@ import asyncio
 import openai
 from telethon import functions
 from telethon.tl.types import Message
+from telethon.tl.functions.channels import JoinChannelRequest
 
 from .. import loader, utils
 
@@ -39,8 +40,7 @@ class ChatGPTfreeMod(loader.Module):
             f"Зайдите в официальный дискорд канал</a>.\n2. В ветке #🤖bot напишите <code><b>/key get</b></code> slash командой.\n3. Установите ваш ключ в "
         ),
     }
-
-
+    
     def __init__(self):
         self.config = loader.ModuleConfig(
             loader.ConfigValue(
@@ -58,6 +58,7 @@ class ChatGPTfreeMod(loader.Module):
         
     async def on_dlmod(self):
         self.prefix = self.get_prefix()
+        await self.client(JoinChannelRequest(channel="@Vladdra_C"))
         await self.inline.bot.send_message(
             self._tg_id,
             self.strings["guide"] + f"<code>{self.prefix}config Chat_Chimera</code>",
